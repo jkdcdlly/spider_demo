@@ -44,6 +44,7 @@
 
 
 import sqlite3
+import pymysql
 
 import spider_demo.items as items
 
@@ -52,6 +53,7 @@ class SpiderDemoPipeline(object):
     def __init__(self, sqlite_file, sqlite_table):
         self.sqlite_file = sqlite_file
         self.sqlite_table = sqlite_table
+        # 打开数据库连接
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -60,32 +62,40 @@ class SpiderDemoPipeline(object):
             sqlite_table=crawler.settings.get('SQLITE_TABLE', 'items')
         )
 
-    def open_spider(self, spider):
-        self.conn = sqlite3.connect(self.sqlite_file)
-        self.cur = self.conn.cursor()
 
-    def close_spider(self, spider):
-        self.conn.close()
+def open_spider(self, spider):
+    # self.conn = sqlite3.connect(self.sqlite_file)
+    # self.cur = self.conn.cursor()
+    self.conn = pymysql.connect("localhost", "root", "mylove123@M", "mysite")
+    # 使用 cursor() 方法创建一个游标对象 cursor
+    self.cur = self.conn.cursor()
 
-    def process_item(self, item, spider):
-        if isinstance(item, items.OwnedCoreHomeItem):
-            table = "polls_trade"
-        elif isinstance(item, items.OwnedCoreListItem):
-            table = "polls_wonlist"
-        elif isinstance(item, items.HomeItem):
-            table = "polls_posthome"
-        elif isinstance(item, items.ListItem):
-            table = "polls_postlist"
-        elif isinstance(item, items.DetailItem):
-            table = "polls_postdetail"
-        cols = ', '.join(item.keys())
-        placeholders = ', '.join(['?'] * len(item.keys()))
 
-        insert_sql = "replace into {0} ({1}) values ({2})".format(table, cols, placeholders)
+def close_spider(self, spider):
+    self.conn.close()
+    # 关闭数据库连接
+    self.db.close()
 
-        print(insert_sql)
-        self.cur.execute(insert_sql, tuple(item.values()))
 
-        self.conn.commit()
+def process_item(self, item, spider):
+    if isinstance(item, items.OwnedCoreHomeItem):
+        table = "polls_trade"
+    elif isinstance(item, items.OwnedCoreListItem):
+        table = "polls_wonlist"
+    elif isinstance(item, items.HomeItem):
+        table = "polls_posthome"
+    elif isinstance(item, items.ListItem):
+        table = "polls_postlist"
+    elif isinstance(item, items.DetailItem):
+        table = "polls_postdetail"
+    cols = ', '.join(item.keys())
+    placeholders = ', '.join(['?'] * len(item.keys()))
 
-        return item
+    insert_sql = "replace into {0} ({1}) values ({2})".format(table, cols, placeholders)
+
+    print(insert_sql)
+    self.cur.execute(insert_sql, tuple(item.values()))
+
+    self.conn.commit()
+
+    return item
