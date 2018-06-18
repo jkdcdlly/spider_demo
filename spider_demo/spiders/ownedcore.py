@@ -41,5 +41,5 @@ class OwnedcoreSpider(scrapy.Spider):
         item["mate_desc"] = '' if mate_desc is None else mate_desc
         mate_key = response.xpath("//meta[@name='keywords']/@content").extract_first()
         item["mate_key"] = '' if mate_key is None else mate_key
-        item["postList_id"] = item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, response.url))
+        item["postList_id"] = item["id"]
         yield item
