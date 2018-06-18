@@ -70,6 +70,11 @@ ITEM_PIPELINES = {
 SQLITE_FILE = '/Users/chenzhilei/workspace/mysite/db.sqlite3'
 SQLITE_TABLE = 'polls_trade'
 
+MYSQL_HOST = "localhost"
+MYSQL_USER = "root"
+MYSQL_PASSWD = "mylove123@M"
+MYSQL_DB = "mysite"
+
 DEFAULT_REQUEST_HEADERS = {
     'accept-language': 'zh-CN,zh;q=0.8',
     'user-agent': 'Mozilla/5.0 (Windows NT 6.3)'
