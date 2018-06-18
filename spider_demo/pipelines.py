@@ -47,7 +47,7 @@ class SpiderDemoPipeline(object):
         elif isinstance(item, items.DetailItem):
             table = "polls_postdetail"
         cols = ', '.join(item.keys())
-        placeholders = ', '.join(['?'] * len(item.keys()))
+        placeholders = ', '.join(['%s'] * len(item.keys()))
 
         insert_sql = "replace into {0} ({1}) values ({2})".format(table, cols, placeholders)
 
