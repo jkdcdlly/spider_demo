@@ -28,7 +28,8 @@ class SpiderDemoPipeline(object):
         )
 
     def open_spider(self, spider):
-        self.conn = pymysql.connect(self.mysql_host, self.mysql_user, self.mysql_passwd, self.mysql_db)
+        self.conn = pymysql.connect(self.mysql_host, self.mysql_user, self.mysql_passwd, self.mysql_db,
+                                    charset='utf8mb4', )
         # 使用 cursor() 方法创建一个游标对象 cursor
         self.cur = self.conn.cursor()
 
