@@ -52,7 +52,7 @@ class SpiderDemoPipeline(object):
         insert_sql = "replace into {0} ({1}) values ({2})".format(table, cols, placeholders)
 
         print(insert_sql)
-        self.cur.execute(insert_sql, tuple(item.values()))
+        self.cur.execute(insert_sql, item.values())
 
         self.conn.commit()
 
