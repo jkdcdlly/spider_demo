@@ -72,7 +72,7 @@ SQLITE_TABLE = 'polls_trade'
 
 MYSQL_HOST = "localhost"
 MYSQL_USER = "root"
-MYSQL_PASSWD = "mylove123@M"
+MYSQL_PASSWD = "4mTqlf8h"
 MYSQL_DB = "mysite"
 
 DEFAULT_REQUEST_HEADERS = {
