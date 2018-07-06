@@ -2,7 +2,7 @@
 import scrapy
 import spider_demo.items as items
 import hashlib
-
+from datetime import datetime
 import uuid
 
 
@@ -19,6 +19,7 @@ class OwnedcoreSpider(scrapy.Spider):
             item["title"] = title
             item["url"] = post_item_body.xpath("div[1]/div/div/div/h2/a/@href").extract_first()
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
+            item["create_time"] = datetime.now()
             yield item
             yield scrapy.Request(item["url"], callback=self.parse_list, meta={
                 "title": item["title"],
@@ -35,6 +36,7 @@ class OwnedcoreSpider(scrapy.Spider):
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
             item["game_name"] = response.meta['game_name']
             item["trade_type"] = "Account Trade"
+            item["create_time"] = datetime.now()
             yield item
             yield scrapy.Request(item["url"], callback=self.parse_detail, meta={
                 "title": item["title"],
@@ -53,4 +55,5 @@ class OwnedcoreSpider(scrapy.Spider):
         item["postList_id"] = item["id"]
         item["game_name"] = response.meta['game_name']
         item["trade_type"] = "Account Trade"
+        item["create_time"] = datetime.now()
         yield item
