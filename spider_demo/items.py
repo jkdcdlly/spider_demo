@@ -48,6 +48,8 @@ class ListItem(scrapy.Item):
     id = scrapy.Field()
     url = scrapy.Field()
     title = scrapy.Field()
+    game_name = scrapy.Field()
+    trade_type = scrapy.Field()
 
 
 class DetailItem(scrapy.Item):
@@ -57,3 +59,5 @@ class DetailItem(scrapy.Item):
     url = scrapy.Field()
     title = scrapy.Field()
     postList_id = scrapy.Field()
+    game_name = scrapy.Field()
+    trade_type = scrapy.Field()

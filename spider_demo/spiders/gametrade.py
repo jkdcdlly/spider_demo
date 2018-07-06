@@ -15,15 +15,11 @@ class OwnedcoreSpider(scrapy.Spider):
         post_items = response.xpath("//div[contains(@class,'forumrow')]")
         for post_item_body in post_items:
             item = items.HomeItem()
-            title = post_item_body.xpath("div[1]/div/div/div/h2/a/text()").extract_first()
-            item["title"] = title
+            item["title"] = post_item_body.xpath("div[1]/div/div/div/h2/a/text()").extract_first()
             item["url"] = post_item_body.xpath("div[1]/div/div/div/h2/a/@href").extract_first()
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
             yield item
-            yield scrapy.Request(item["url"], callback=self.parse_list, meta={
-                "title": item["title"],
-                "game_name": title.split("Buy Sell Trade")[0]
-            })
+            yield scrapy.Request(item["url"], callback=self.parse_list)
 
     #
     def parse_list(self, response):
@@ -33,13 +29,8 @@ class OwnedcoreSpider(scrapy.Spider):
             item["url"] = post_item_body.xpath("@href").extract_first()
             item["title"] = post_item_body.xpath("text()").extract_first()
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
-            item["game_name"] = response.meta['game_name']
-            item["trade_type"] = "Account Trade"
             yield item
-            yield scrapy.Request(item["url"], callback=self.parse_detail, meta={
-                "title": item["title"],
-                "game_name": response.meta['game_name']
-            })
+            yield scrapy.Request(item["url"], callback=self.parse_detail, meta={"title": item["title"]})
 
     def parse_detail(self, response):
         item = items.DetailItem()
@@ -51,6 +42,4 @@ class OwnedcoreSpider(scrapy.Spider):
         mate_key = response.xpath("//meta[@name='keywords']/@content").extract_first()
         item["mate_key"] = '' if mate_key is None else mate_key
         item["postList_id"] = item["id"]
-        item["game_name"] = response.meta['game_name']
-        item["trade_type"] = "Account Trade"
         yield item
