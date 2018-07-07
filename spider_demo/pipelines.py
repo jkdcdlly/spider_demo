@@ -50,7 +50,7 @@ class SpiderDemoPipeline(object):
         cols = ', '.join(item.keys())
         placeholders = ', '.join(['%s'] * len(item.keys()))
 
-        insert_sql = "INSERT IGNORE into {0} ({1}) values ({2})".format(table, cols, placeholders)
+        insert_sql = "replace into {0} ({1}) values ({2})".format(table, cols, placeholders)
 
         print(insert_sql)
         self.cur.execute(insert_sql, tuple(item.values()))
