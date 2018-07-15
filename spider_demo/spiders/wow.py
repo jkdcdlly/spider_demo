@@ -7,7 +7,7 @@ import uuid
 
 
 class WowSpider(scrapy.Spider):
-    name = 'ownedcore'
+    name = 'wow'
     allowed_domains = ['www.ownedcore.com', 'www.epicnpc.com']
     start_urls = [
         'https://www.epicnpc.com/forums/301-World-of-Warcraft-WoW-Private-Servers-Accounts'
