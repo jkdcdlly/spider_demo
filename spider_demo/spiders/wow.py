@@ -6,7 +6,7 @@ import hashlib
 import uuid
 
 
-class OwnedcoreSpider(scrapy.Spider):
+class WowSpider(scrapy.Spider):
     name = 'ownedcore'
     allowed_domains = ['www.ownedcore.com', 'www.epicnpc.com']
     start_urls = [
