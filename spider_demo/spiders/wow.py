@@ -8,8 +8,10 @@ import uuid
 
 class OwnedcoreSpider(scrapy.Spider):
     name = 'ownedcore'
-    allowed_domains = ['www.ownedcore.com']
-    start_urls = ['https://www.ownedcore.com/forums/mmo-trading-market/']
+    allowed_domains = ['www.ownedcore.com', 'www.epicnpc.com']
+    start_urls = [
+        'https://www.epicnpc.com/forums/301-World-of-Warcraft-WoW-Private-Servers-Accounts'
+    ]
 
     def parse(self, response):
         post_items = response.xpath("//div[contains(@class,'forumrow')]")

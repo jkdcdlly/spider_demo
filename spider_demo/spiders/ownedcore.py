@@ -19,7 +19,7 @@ class OwnedcoreSpider(scrapy.Spider):
             item["title"] = title
             item["url"] = post_item_body.xpath("div[1]/div/div/div/h2/a/@href").extract_first()
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
-            item["create_time"] = datetime.now()
+            # item["create_time"] = datetime.now()
             yield item
             yield scrapy.Request(item["url"], callback=self.parse_list, meta={
                 "title": item["title"],
@@ -36,7 +36,7 @@ class OwnedcoreSpider(scrapy.Spider):
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
             item["game_name"] = response.meta['game_name']
             item["trade_type"] = "Account Trade"
-            item["create_time"] = datetime.now()
+            # item["create_time"] = datetime.now()
             yield item
             yield scrapy.Request(item["url"], callback=self.parse_detail, meta={
                 "title": item["title"],
@@ -55,5 +55,9 @@ class OwnedcoreSpider(scrapy.Spider):
         item["postList_id"] = item["id"]
         item["game_name"] = response.meta['game_name']
         item["trade_type"] = "Account Trade"
-        item["create_time"] = datetime.now()
+        # item["create_time"] = datetime.now()
+        table = response.xpath('//*[@id="post_message_3738214"]')[0]
+        from lxml import etree
+        item["post_detail"] = etree.tostring(table, method='html')
+
         yield item
