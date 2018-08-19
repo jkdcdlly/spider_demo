@@ -57,7 +57,6 @@ class OwnedcoreSpider(scrapy.Spider):
         item["trade_type"] = "Account Trade"
         # item["create_time"] = datetime.now()
         table = response.xpath('//div[contains(@id,"post_message_")]')[0]
-        from lxml import etree
         item["post_detail"] = table.extract()
 
         yield item
