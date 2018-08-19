@@ -58,6 +58,6 @@ class OwnedcoreSpider(scrapy.Spider):
         # item["create_time"] = datetime.now()
         table = response.xpath('//div[contains(@id,"post_message_")]')[0]
         from lxml import etree
-        item["post_detail"] = etree.tostring(table, method='html')
+        item["post_detail"] = table.extract()
 
         yield item
