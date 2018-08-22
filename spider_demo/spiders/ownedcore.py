@@ -25,7 +25,10 @@ class OwnedcoreSpider(scrapy.Spider):
                 "title": item["title"],
                 "game_name": title.split("Buy Sell Trade")[0]
             })
-
+            yield scrapy.Request(item["url"]+"/index2.html", callback=self.parse_list, meta={
+                "title": item["title"],
+                "game_name": title.split("Buy Sell Trade")[0]
+            })
     #
     def parse_list(self, response):
         post_items = response.xpath("""//*[starts-with(@id,'thread_title_')]""")
