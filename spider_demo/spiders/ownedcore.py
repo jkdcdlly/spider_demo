@@ -26,7 +26,7 @@ class OwnedcoreSpider(scrapy.Spider):
                 "title": item["title"],
                 "game_name": title.split("Buy Sell Trade")[0]
             })
-            i = random.random(10) + 2
+            i = random.randint(1,10)+2
             suffix = "index" + str(i) + ".html"
             yield scrapy.Request(item["url"] + suffix, callback=self.parse_list, meta={
                 "title": item["title"],
