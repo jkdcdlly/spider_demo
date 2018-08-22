@@ -25,10 +25,12 @@ class OwnedcoreSpider(scrapy.Spider):
                 "title": item["title"],
                 "game_name": title.split("Buy Sell Trade")[0]
             })
-            yield scrapy.Request(item["url"]+"index2.html", callback=self.parse_list, meta={
-                "title": item["title"],
-                "game_name": title.split("Buy Sell Trade")[0]
-            })
+            for i in range(2, 11):
+                suffix = "index" + str(i) + ".html"
+                yield scrapy.Request(item["url"] + suffix, callback=self.parse_list, meta={
+                    "title": item["title"],
+                    "game_name": title.split("Buy Sell Trade")[0]
+                })
 
     #
     def parse_list(self, response):
