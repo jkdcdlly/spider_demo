@@ -4,6 +4,7 @@ import spider_demo.items as items
 import hashlib
 from datetime import datetime
 import uuid
+import random
 
 
 class OwnedcoreSpider(scrapy.Spider):
@@ -25,12 +26,12 @@ class OwnedcoreSpider(scrapy.Spider):
                 "title": item["title"],
                 "game_name": title.split("Buy Sell Trade")[0]
             })
-            for i in range(2, 11):
-                suffix = "index" + str(i) + ".html"
-                yield scrapy.Request(item["url"] + suffix, callback=self.parse_list, meta={
-                    "title": item["title"],
-                    "game_name": title.split("Buy Sell Trade")[0]
-                })
+            i = random.random(10) + 2
+            suffix = "index" + str(i) + ".html"
+            yield scrapy.Request(item["url"] + suffix, callback=self.parse_list, meta={
+                "title": item["title"],
+                "game_name": title.split("Buy Sell Trade")[0]
+            })
 
     #
     def parse_list(self, response):
