@@ -17,16 +17,15 @@ class OwnedcoreSpider(scrapy.Spider):
             item = items.HomeItem()
             title = post_item_body.xpath("div[1]/div/div/div/h2/a/text()").extract_first()
             item["title"] = title
-            item["url"] = post_item_body.xpath("div[1]/div/div/div/h2/a/@href").extract_first()
+            url = post_item_body.xpath("div[1]/div/div/div/h2/a/@href").extract_first()
+            item["url"] = url.split("?s=")[0]
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
-            # item["create_time"] = datetime.now()
             yield item
             yield scrapy.Request(item["url"], callback=self.parse_list, meta={
                 "title": item["title"],
                 "game_name": title.split("Buy Sell Trade")[0]
             })
-            url = item["url"].split("?s=")[0] + "index2.html"
-            yield scrapy.Request(url, callback=self.parse_list, meta={
+            yield scrapy.Request(item["url"]+"index2.html", callback=self.parse_list, meta={
                 "title": item["title"],
                 "game_name": title.split("Buy Sell Trade")[0]
             })
@@ -36,7 +35,8 @@ class OwnedcoreSpider(scrapy.Spider):
         post_items = response.xpath("""//*[starts-with(@id,'thread_title_')]""")
         item = items.ListItem()
         for post_item_body in post_items:
-            item["url"] = post_item_body.xpath("@href").extract_first()
+            url = post_item_body.xpath("@href").extract_first()
+            item["url"] = url.split("?s=")[0]
             item["title"] = post_item_body.xpath("text()").extract_first()
             item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, item["url"]))
             item["game_name"] = response.meta['game_name']
@@ -51,7 +51,8 @@ class OwnedcoreSpider(scrapy.Spider):
     def parse_detail(self, response):
         item = items.DetailItem()
         item["id"] = str(uuid.uuid3(uuid.NAMESPACE_DNS, response.url))
-        item["url"] = response.url
+        url = response.url
+        item["url"] = url.split("?s=")[0]
         item["title"] = response.meta["title"]
         mate_desc = response.xpath("//meta[@name='description']/@content").extract_first()
         item["mate_desc"] = '' if mate_desc is None else mate_desc
