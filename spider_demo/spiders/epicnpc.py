@@ -4,6 +4,7 @@ import scrapy
 import spider_demo.items as items
 from spider_demo import emailSender
 import datetime
+from scrapy.mail import MailSender
 
 
 class epicnpcSpider(scrapy.Spider):
@@ -11,14 +12,18 @@ class epicnpcSpider(scrapy.Spider):
     allowed_domains = ['www.epicnpc.com']
     start_urls = ['https://www.epicnpc.com/forumlist.php']
 
-    # def start_requests(self):
-    #     emailSenderClient = emailSender.emailSender()
-    #     toSendEmailLst = ['chenzl@bbtree.com']
-    #     params = {"startTime": datetime.datetime.now(), "name": "epicnpc"}
-    #     subject = "爬虫启动状态汇报：name = {name}, startTime = {startTime}".format(**params)
-    #     body = "细节：start successs! name = {name},at:{startTime}".format(**params)
-    #     emailSenderClient.sendEmail(toSendEmailLst, subject, body)  # 发送邮件
+    def start_requests(self):
+        emailSenderClient = emailSender.emailSender()
+        toSendEmailLst = ['chenzl@bbtree.com']
+        params = {"startTime": datetime.datetime.now(), "name": "epicnpc"}
+        subject = "爬虫启动状态汇报：name = {name}, startTime = {startTime}".format(**params)
+        body = "细节：start successs! name = {name},at:{startTime}".format(**params)
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body)  # 发送邮件
+        yield scrapy.Request(url="https://www.epicnpc.com/forumlist.php", callback=self.parse)
 
+    # def start_requests(self):
+    #     mailer = MailSender()
+    #     mailer.send(to=["chenzl@bbtree.com"], subject="Some subject", body="Some body")
     # 解析首页
     def parse(self, response):
         links = response.xpath('//*[@id="charnav"]//a/@href').extract()
@@ -68,21 +73,21 @@ class epicnpcSpider(scrapy.Spider):
         item["post_detail"] = table.extract()
         yield item
 
-    # def closed(self, reason):  # 爬取结束的时候发送邮件
-    #     emailSenderClient = emailSender.emailSender()
-    #     toSendEmailLst = ['chenzl@bbtree.com']
-    #     params = {"finishTime": datetime.datetime.now(), "reason": reason}
-    #     subject = "爬虫结束状态汇报：name = baidu, finishedTime = {finishTime}".format(finishTime=datetime.datetime.now())
-    #     body = "细节：reason = {reason}, successs! at:{finishTime}".format(**params)
-    #     emailSenderClient.sendEmail(toSendEmailLst, subject, body)
-    #
-    # def error(self, failure):
-    #     emailSenderClient = emailSender.emailSender()
-    #     toSendEmailLst = ['chenzl@bbtree.com']
-    #     params = {"finishTime": datetime.datetime.now(), "failure": failure}
-    #     subject = "爬虫结束状态汇报：name = baidu, finishedTime = {finishTime}".format(finishTime=datetime.datetime.now())
-    #     body = "细节：failure = {failure}, failure! at:{finishTime}".format(**params)
-    #     emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+    def closed(self, reason):  # 爬取结束的时候发送邮件
+        emailSenderClient = emailSender.emailSender()
+        toSendEmailLst = ['chenzl@bbtree.com']
+        params = {"finishTime": datetime.datetime.now(), "reason": reason}
+        subject = "爬虫结束状态汇报：name = baidu, finishedTime = {finishTime}".format(finishTime=datetime.datetime.now())
+        body = "细节：reason = {reason}, successs! at:{finishTime}".format(**params)
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+
+    def error(self, failure):
+        emailSenderClient = emailSender.emailSender()
+        toSendEmailLst = ['chenzl@bbtree.com']
+        params = {"finishTime": datetime.datetime.now(), "failure": failure}
+        subject = "爬虫结束状态汇报：name = baidu, finishedTime = {finishTime}".format(finishTime=datetime.datetime.now())
+        body = "细节：failure = {failure}, failure! at:{finishTime}".format(**params)
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body)
 
     def trim_url(self, url):
         if not url.startswith("https://www.epicnpc.com/"):
