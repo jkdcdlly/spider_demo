@@ -42,7 +42,13 @@ class HomeItem(scrapy.Item):
     id = scrapy.Field()
     url = scrapy.Field()
     title = scrapy.Field()
-    # create_time = scrapy.Field()
+
+
+class polls_gameinfo(scrapy.Item):
+    id = scrapy.Field()
+    game_name = scrapy.Field()
+    game_img_url = scrapy.Field()
+    post_num = scrapy.Field()
 
 
 class ListItem(scrapy.Item):
@@ -51,7 +57,6 @@ class ListItem(scrapy.Item):
     title = scrapy.Field()
     game_name = scrapy.Field()
     trade_type = scrapy.Field()
-    # create_time = scrapy.Field()
 
 
 class DetailItem(scrapy.Item):
@@ -63,5 +68,11 @@ class DetailItem(scrapy.Item):
     postList_id = scrapy.Field()
     game_name = scrapy.Field()
     trade_type = scrapy.Field()
-    # create_time = scrapy.Field()
     post_detail = scrapy.Field()
+
+
+class Schools(scrapy.Item):
+    province = scrapy.Field()
+    city = scrapy.Field()
+    school_name = scrapy.Field()
+    school_desc = scrapy.Field()
