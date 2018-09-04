@@ -8,6 +8,8 @@ from scrapy.mail import MailSender
 
 
 class epicnpcSpider(scrapy.Spider):
+    is_next = 0  # 当前页（每页25条）
+    max_page = 10  # 最多抓10页
     name = 'epicnpc'
     allowed_domains = ['www.epicnpc.com']
     start_urls = ['https://www.epicnpc.com/forumlist.php']
@@ -40,6 +42,7 @@ class epicnpcSpider(scrapy.Spider):
             })
 
     def parse_3(self, response):
+        self.is_next += 1
         threads = response.xpath('//*[@id="threads"]//h3[@class="threadtitle"]/a')
         item = items.ListItem()
         for thread in threads:
@@ -55,6 +58,19 @@ class epicnpcSpider(scrapy.Spider):
                 "title": item["title"],
                 "game_name": response.meta['game_name']
             })
+        # 下一页
+        prev_next = response.css('span.prev_next')
+        # if prev_next and self.is_next < self.max_page:
+        if prev_next:
+            next_urls = prev_next.xpath('a/@href').extract()
+            if next_urls and len(next_urls) >= 1:
+                next_url = next_urls[len(next_urls) - 1]
+                yield scrapy.Request(
+                    self.trim_url(next_url),
+                    callback=self.parse_3,
+                    meta={
+                        "game_name": response.meta['game_name']
+                    })
 
     def parse_detail(self, response):
         item = items.DetailItem()
