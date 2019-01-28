@@ -16,6 +16,10 @@ class SpiderDemoPipeline(object):
         self.mysql_user = mysql_user
         self.mysql_passwd = mysql_passwd
         self.mysql_db = mysql_db
+        self.conn = pymysql.connect(self.mysql_host, self.mysql_user, self.mysql_passwd, self.mysql_db,
+                                    charset='utf8mb4', )
+        self.cur = self.conn.cursor()
+
         # 打开数据库连接
 
     @classmethod
@@ -27,35 +31,26 @@ class SpiderDemoPipeline(object):
             mysql_db=crawler.settings.get('MYSQL_DB')
         )
 
-    def open_spider(self, spider):
-        self.conn = pymysql.connect(self.mysql_host, self.mysql_user, self.mysql_passwd, self.mysql_db,
-                                    charset='utf8mb4', )
-        # 使用 cursor() 方法创建一个游标对象 cursor
-        self.cur = self.conn.cursor()
-
     def close_spider(self, spider):
         self.conn.close()
 
     def process_item(self, item, spider):
-        if isinstance(item, items.OwnedCoreHomeItem):
-            table = "polls_trade"
-        elif isinstance(item, items.OwnedCoreListItem):
-            table = "polls_wonlist"
-        elif isinstance(item, items.HomeItem):
-            table = "polls_posthome"
-        elif isinstance(item, items.ListItem):
-            table = "polls_postlist"
-        elif isinstance(item, items.DetailItem):
-            table = "polls_postdetail"
+        # print("========================================================")
+        if isinstance(item, items.Recipes):
+            table = "recipes"
+        elif isinstance(item, items.SchoolInfo):
+            table = "school_info"
+        elif isinstance(item, items.PlayerUp):
+            table = "player_up"
+        elif isinstance(item, items.DuoKanItem):
+            table = "book_desc"
+        else:
+            table = ""
+
         cols = ', '.join(item.keys())
-        placeholders = ', '.join(['%s'] * len(item.keys()))
-
-        # insert_sql = "INSERT IGNORE into {0} ({1}) values ({2})".format(table, cols, placeholders)
-        insert_sql = "replace into {0} ({1}) values ({2})".format(table, cols, placeholders)
-
-        print(insert_sql)
+        values = ', '.join(['%s'] * len(item.keys()))
+        insert_sql = "replace into {table} ({cols}) values ({values})".format(table=table, cols=cols, values=values)
+        # print(insert_sql)
         self.cur.execute(insert_sql, tuple(item.values()))
-        self.cur.fetchall()
         self.conn.commit()
-
         return item

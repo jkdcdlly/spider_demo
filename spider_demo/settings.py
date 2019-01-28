@@ -21,12 +21,14 @@ NEWSPIDER_MODULE = 'spider_demo.spiders'
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 16
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1  # s
+DOWNLOAD_DELAY = 0.2  # s
+DOWNLOAD_TIMEOUT = 15
+RETRY_ENABLED = False
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -64,16 +66,15 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'spider_demo.pipelines.SpiderDemoPipeline': 300,
+    'spider_demo.pipelines.SpiderDemoPipeline': 30,
 }
-
-SQLITE_FILE = '/Users/chenzhilei/workspace/mysite/db.sqlite3'
-SQLITE_TABLE = 'polls_trade'
 
 MYSQL_HOST = "localhost"
 MYSQL_USER = "root"
-MYSQL_PASSWD = "4mTqlf8h"
-MYSQL_DB = "mysite"
+MYSQL_PASSWD = ""
+MYSQL_DB = "scrapy_db"
+
+LOG_LEVEL = 'INFO'
 
 DEFAULT_REQUEST_HEADERS = {
     'accept-language': 'zh-CN,zh;q=0.8',
@@ -90,7 +91,7 @@ DEFAULT_REQUEST_HEADERS = {
 # each remote server
 # AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
-# AUTOTHROTTLE_DEBUG = False
+AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings

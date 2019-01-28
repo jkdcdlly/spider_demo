@@ -8,71 +8,55 @@
 import scrapy
 
 
-class SpiderDemoItem(scrapy.Item):
-    id = scrapy.Field()
+class Recipes(scrapy.Item):
+    origin_url = scrapy.Field()
+    cate = scrapy.Field()
     title = scrapy.Field()
-    text = scrapy.Field()
-    url = scrapy.Field()
-    threads = scrapy.Field()
-    posts = scrapy.Field()
+    imgs = scrapy.Field()
+    content = scrapy.Field()
 
 
-class OwnedCoreHomeItem(scrapy.Item):
-    # id = scrapy.Field()
-    title = scrapy.Field()
-    text = scrapy.Field()
-    url = scrapy.Field()
-    id = scrapy.Field()
-    threads = scrapy.Field()
-    posts = scrapy.Field()
+class SchoolInfo(scrapy.Item):
+    school_name = scrapy.Field()
+    xiaozhang = scrapy.Field()
+    email = scrapy.Field()
+    site = scrapy.Field()
+    cate = scrapy.Field()
+    type = scrapy.Field()
+    address = scrapy.Field()
+    zip = scrapy.Field()
+    phone = scrapy.Field()
+    fax = scrapy.Field()
+    info = scrapy.Field()
+    mark = scrapy.Field()
 
 
-class OwnedCoreListItem(scrapy.Item):
-    title = scrapy.Field()
-    url = scrapy.Field()
-    id = scrapy.Field()
-    trade_id = scrapy.Field()
-
-
-# postdetail
-# posthome
-# postlist
-
-class HomeItem(scrapy.Item):
-    id = scrapy.Field()
-    url = scrapy.Field()
-    title = scrapy.Field()
-
-
-class polls_gameinfo(scrapy.Item):
-    id = scrapy.Field()
-    game_name = scrapy.Field()
-    game_img_url = scrapy.Field()
-    post_num = scrapy.Field()
-
-
-class ListItem(scrapy.Item):
-    id = scrapy.Field()
-    url = scrapy.Field()
-    title = scrapy.Field()
-    game_name = scrapy.Field()
-    trade_type = scrapy.Field()
-
-
-class DetailItem(scrapy.Item):
-    id = scrapy.Field()
+class PlayerUp(scrapy.Item):
+    cate1_title = scrapy.Field()
+    cate2_title = scrapy.Field()
+    detail_title = scrapy.Field()
+    detail_url = scrapy.Field()
     mate_desc = scrapy.Field()
     mate_key = scrapy.Field()
-    url = scrapy.Field()
-    title = scrapy.Field()
-    postList_id = scrapy.Field()
-    game_name = scrapy.Field()
-    trade_type = scrapy.Field()
-    post_detail = scrapy.Field()
+    detail = scrapy.Field()
 
 
-class Schools(scrapy.Item):
-    province = scrapy.Field()
-    city = scrapy.Field()
-    school_name = scrapy.Field()
-    school_desc = scrapy.Field()
+class DuoKanItem(scrapy.Item):
+    book_id = scrapy.Field()
+    book_url = scrapy.Field()
+    book_img = scrapy.Field()
+    book_title = scrapy.Field()
+    book_author = scrapy.Field()
+    book_translator = scrapy.Field()
+    book_copyright = scrapy.Field()
+    book_datePublished = scrapy.Field()
+    book_grade = scrapy.Field()
+    book_score = scrapy.Field()
+    book_rating = scrapy.Field()
+    new_price = scrapy.Field()
+    old_price = scrapy.Field()
+    book_content = scrapy.Field()
+    book_catalogue = scrapy.Field()
+    keywords = scrapy.Field()
+    description = scrapy.Field()
+    classify = scrapy.Field()
