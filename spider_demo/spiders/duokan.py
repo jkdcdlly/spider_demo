@@ -35,7 +35,7 @@ class DuoKanBookSpider(scrapy.Spider):
             yield scrapy.Request(self.SITE_URL + itm_href, callback=self.parse_list, meta={
                 "itm_cate": itm_cate
             })
-            break
+            # break
 
     #
     def parse_list(self, response):
@@ -53,11 +53,11 @@ class DuoKanBookSpider(scrapy.Spider):
             # break
             # 是否还有下一页，如果有的话，则继续
 
-            # next_pages = response.xpath('//*[@class="next "]/@href').extract_first()
-            # if next_pages:
-            #     next_page = self.SITE_URL + next_pages
-            #     self.log('page_url: %s' % next_page)
-            #     yield scrapy.Request(next_page, callback=self.parse_list)
+            next_pages = response.xpath('//*[@class="next "]/@href').extract_first()
+            if next_pages:
+                next_page = self.SITE_URL + next_pages
+                self.log('page_url: %s' % next_page)
+                yield scrapy.Request(next_page, callback=self.parse_list)
 
     def parse_detail(self, response):
         book_url = response.url
