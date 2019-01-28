@@ -2,7 +2,7 @@
 import uuid
 import scrapy
 import spider_demo.items as items
-from spider_demo import EmailSender
+from spider_demo import emailSender
 import datetime
 
 
@@ -29,7 +29,7 @@ class BjdchGov(scrapy.Spider):
         params = {"startTime": datetime.datetime.now(), "name": self.name}
         subject = "爬虫启动状态汇报：name = {name}, startTime = {startTime}".format(**params)
         body = "细节：start successs! name = {name},at:{startTime}".format(**params)
-        EmailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
+        emailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
         yield scrapy.Request(url=self.start_urls[0], callback=self.parse)
 
     def parse(self, response):
@@ -83,7 +83,7 @@ def closed(reason):
     params = {"finishTime": datetime.datetime.now(), "reason": reason}
     subject = "爬虫结束状态汇报：name = baidu, finishedTime = {finishTime}".format(finishTime=datetime.datetime.now())
     body = "细节：reason = {reason}, successs! at:{finishTime}".format(**params)
-    EmailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
+    emailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
 
 
 def error(failure):
@@ -95,4 +95,4 @@ def error(failure):
     params = {"finishTime": datetime.datetime.now(), "failure": failure}
     subject = "爬虫结束状态汇报：name = baidu, finishedTime = {finishTime}".format(finishTime=datetime.datetime.now())
     body = "细节：failure = {failure}, failure! at:{finishTime}".format(**params)
-    EmailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
+    emailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件

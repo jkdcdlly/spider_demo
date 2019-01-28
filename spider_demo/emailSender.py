@@ -3,7 +3,7 @@
 import smtplib
 from email.mime.text import MIMEText
 
-
+#
 class EmailSender(object):
     def __init__(self):
         self.smtp_host = "smtp.exmail.qq.com"  # 发送邮件的smtp服务器（从QQ邮箱中取得）
