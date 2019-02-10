@@ -111,26 +111,26 @@ class DuoKanBookSpider(scrapy.Spider):
         item['classify'] = classify.strip()
         yield item
 
-        def closed(self, reason):
-            """
-            爬取结束的时候发送邮件
-            :param reason:
-            :return:
-            """
-            params = {"finishTime": datetime.datetime.now(), "reason": reason}
-            subject = "爬虫结束状态汇报：name = {name}, finishedTime = {finishTime}".format(name=self.name,
-                                                                                   finishTime=datetime.datetime.now())
-            body = "细节：reason = {reason}, successs! at:{finishTime}".format(**params)
-            emailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
+    def closed(self, reason):
+        """
+        爬取结束的时候发送邮件
+        :param reason:
+        :return:
+        """
+        params = {"finishTime": datetime.datetime.now(), "reason": reason}
+        subject = "爬虫结束状态汇报：name = {name}, finishedTime = {finishTime}".format(name=self.name,
+                                                                               finishTime=datetime.datetime.now())
+        body = "细节：reason = {reason}, successs! at:{finishTime}".format(**params)
+        emailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
 
-        def error(self, failure):
-            """
-            爬取错误的时候发送邮件
-            :param failure:
-            :return:
-            """
-            params = {"finishTime": datetime.datetime.now(), "failure": failure}
-            subject = "爬虫结束状态汇报：name = {name}, finishedTime = {finishTime}".format(name=self.name,
-                                                                                   finishTime=datetime.datetime.now())
-            body = "细节：failure = {failure}, failure! at:{finishTime}".format(**params)
-            emailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
+    def error(self, failure):
+        """
+        爬取错误的时候发送邮件
+        :param failure:
+        :return:
+        """
+        params = {"finishTime": datetime.datetime.now(), "failure": failure}
+        subject = "爬虫结束状态汇报：name = {name}, finishedTime = {finishTime}".format(name=self.name,
+                                                                               finishTime=datetime.datetime.now())
+        body = "细节：failure = {failure}, failure! at:{finishTime}".format(**params)
+        emailSender.EmailSender().send_email(subject=subject, body=body)  # 发送邮件
