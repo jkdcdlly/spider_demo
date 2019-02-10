@@ -27,7 +27,7 @@ CONCURRENT_REQUESTS = 16
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.2  # s
+DOWNLOAD_DELAY = 1  # s
 DOWNLOAD_TIMEOUT = 15
 RETRY_ENABLED = False
 # The download delay setting will honor only one of:
