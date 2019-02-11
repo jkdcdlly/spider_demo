@@ -72,8 +72,10 @@ ITEM_PIPELINES = {
 
 MYSQL_HOST = "localhost"
 MYSQL_USER = "root"
-MYSQL_PASSWD = ""
-MYSQL_DB = "scrapy_db"
+MYSQL_PASSWD = "MyNewPass4!"
+MYSQL_DB = "mysite"
+# MYSQL_PASSWD = ""
+# MYSQL_DB = "scrapy_db"
 
 LOG_LEVEL = 'INFO'
 
