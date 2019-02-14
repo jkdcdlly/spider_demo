@@ -27,13 +27,13 @@ class DouBanBookSpider(scrapy.Spider):
         self.log(' ================' + str(response.request.headers['User-Agent']) + ' ================')
         lis_text = response.xpath('//*[@id="content"]/div/div[1]/div[2]/div/table/tbody/tr/td/a/text()').extract()
         lis_href = response.xpath('//*[@id="content"]/div/div[1]/div[2]/div/table/tbody/tr/td/a/@href').extract()
-        for i in range(0, len(lis_text)):
+        for i in range(1, len(lis_text)):
             # print(' ================' + "https://book.douban.com" + lis_href[i] + ' ================')
             yield scrapy.Request("https://book.douban.com" + lis_href[i],
                                  callback=self.parse_list,
                                  meta={'classify': lis_text[i]}
                                  )
-            break
+            # break
 
     #
     def parse_list(self, response):
