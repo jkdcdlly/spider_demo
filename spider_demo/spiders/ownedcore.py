@@ -62,7 +62,7 @@ class OwnedcoreSpider(scrapy.Spider):
         mate_key = response.xpath("//meta[@name='keywords']/@content").extract_first()
         item["mate_key"] = '' if mate_key is None else mate_key
         item["postList_id"] = item["id"]
-        item["game_name"] = response.meta['game_name']
+        item["game_name"] = response.meta['game_name'].replace("&","+")
         item["trade_type"] = "Account Trade"
         # item["create_time"] = datetime.now()
         table = response.xpath('//div[contains(@id,"post_message_")]')[0]

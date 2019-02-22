@@ -104,9 +104,9 @@ class PeasAndCrayons(scrapy.Spider):
         :return:
         """
         item = items.PlayerUp()
-        item["cate1_title"] = response.meta["title1"]
-        item["cate2_title"] = response.meta["title2"]
-        item["detail_title"] = response.meta["title3"]
+        item["cate1_title"] = response.meta["title1"].replace("&", "+")
+        item["cate2_title"] = response.meta["title2"].replace("&", "+")
+        item["detail_title"] = response.meta["title3"].replace("&", "+")
         item["detail_url"] = response.url
         mate_desc = response.xpath("//meta[@name='description']/@content").extract_first()
         mate_key = response.xpath("//meta[@name='keywords']/@content").extract_first()

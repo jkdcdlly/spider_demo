@@ -8,7 +8,7 @@ class EmailSender(object):
     def __init__(self):
         self.smtp_host = "smtp.exmail.qq.com"  # 发送邮件的smtp服务器（从QQ邮箱中取得）
         self.smtp_user = "data@bbtree.com"  # 用于登录smtp服务器的用户名，也就是发送者的邮箱
-        self.smtp_pwd = "Zhs@2018"  # 授权码，和用户名user一起，用于登录smtp， 非邮箱密码
+        self.smtp_pwd = "Zhs@2019"  # 授权码，和用户名user一起，用于登录smtp， 非邮箱密码
         self.smtp_port = 465  # smtp服务器SSL端口号，默认是465
         self.sender = "data@bbtree.com"  # 发送方的邮箱
 

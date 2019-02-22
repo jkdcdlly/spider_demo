@@ -44,6 +44,8 @@ class SpiderDemoPipeline(object):
             table = "player_up"
         elif isinstance(item, items.DuoKanItem):
             table = "book_desc"
+        elif isinstance(item, items.IReadWeekItem):
+            table = "book_desc"
         else:
             table = ""
 

@@ -91,10 +91,11 @@ class DuoKanBookSpider(scrapy.Spider):
         description = response.xpath('/html/head/meta[@name="description"]/@content').extract_first()
         classify = response.xpath('//*[@id="dkclassify"]/text()').extract_first()
         item = items.DuoKanItem()
+
         item['book_id'] = None
         item['book_url'] = book_url
         item['book_img'] = book_img
-        item['book_title'] = book_title
+        item['book_title'] = book_title.replace("&","+")
         item['book_author'] = book_author
         item['book_translator'] = book_translator
         item['book_copyright'] = book_copyright

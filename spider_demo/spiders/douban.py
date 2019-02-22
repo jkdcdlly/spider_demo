@@ -74,7 +74,7 @@ class DouBanBookSpider(scrapy.Spider):
         item['book_id'] = None
         item['book_url'] = response.url
         item['book_img'] = book_img
-        item['book_title'] = book_title
+        item['book_title'] = book_title.replace("&", "+")
         item['book_author'] = book_author
         item['book_translator'] = book_translator
         item['book_copyright'] = book_copyright
